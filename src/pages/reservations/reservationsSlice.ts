@@ -7,10 +7,10 @@ export interface ReservationsState {
   filteredReservations: Reservation[];
   filters: {
     search: string;
-    date: string | undefined;
-    status: string | undefined;
-    shift: string | undefined;
-    area: string | undefined;
+    date: string;
+    status: string;
+    shift: string;
+    area: string;
   };
 }
 
@@ -19,10 +19,10 @@ const initialState: ReservationsState = {
   filteredReservations: [],
   filters: {
     search: "",
-    date: undefined,
-    status: undefined,
-    shift: undefined,
-    area: undefined,
+    date: "",
+    status: "",
+    shift: "",
+    area: "",
   },
 };
 
@@ -30,32 +30,48 @@ export const reservationsSlice = createSlice({
   name: "reservations",
   initialState,
   reducers: {
-    setData: (state, action: PayloadAction<Reservation[]>) => {
+    setData: (
+      state: ReservationsState,
+      action: PayloadAction<Reservation[]>
+    ) => {
       state.reservations = action.payload;
       state.filteredReservations = action.payload;
     },
-    filterReservations: (state, action: PayloadAction<{}>) => {
+    filterReservations: (
+      state: ReservationsState,
+      action: PayloadAction<{}>
+    ) => {
       state.filters = {
         ...state.filters,
         ...action.payload,
       };
 
-      const { search, area } = state.filters;
+      const { search, area, shift, status, date } = state.filters;
 
-      state.filteredReservations =
-        search === ""
-          ? state.reservations
-          : state.reservations.filter((x) => {
-              console.log((x.customer.firstName + x.customer.lastName).toLowerCase());
-              (x.customer.firstName + x.customer.lastName)
+      state.filteredReservations = state.reservations.reduce(
+        (accumulator: Reservation[], item: Reservation) => {
+          if (
+            (item.area === area || area === "") &&
+            (item.shift === shift || shift === "") &&
+            (item.status === status || status === "") &&
+            ((new Date(item.start.split("T")[0]) <= new Date(date) &&
+              new Date(item.end.split("T")[0]) >= new Date(date)) ||
+              date === "") &&
+            (item.customer.firstName
+              .toLowerCase()
+              .startsWith(search.toLowerCase()) ||
+              item.customer.lastName
                 .toLowerCase()
-                .includes(search.toLowerCase());
-            });
+                .startsWith(search.toLowerCase()) ||
+              search === "")
+          ) {
+            accumulator.push(item);
+          }
 
-      state.filteredReservations =
-        area === "All"
-          ? state.reservations
-          : state.reservations.filter((x) => x.area === area);
+          return Array.from(new Set(accumulator));
+        },
+        []
+      );
     },
   },
 });

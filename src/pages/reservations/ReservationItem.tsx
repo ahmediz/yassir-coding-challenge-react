@@ -16,7 +16,7 @@ export default function ReservationItem(reservation: Reservation) {
       break;
   }
   return (
-    <tr>
+    <tr style={{animation: 'fadeIn .3s ease-in-out'}}>
       <td className="px-3 py-2 border border-black/10 text-left">
         {reservation.id}
       </td>

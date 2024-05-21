@@ -12,7 +12,7 @@ type FormData = {
 export default function ReservationsFilterForm() {
   const { register, handleSubmit } = useForm<FormData>();
   const dispatch = useDispatch();
-  const onSubmit: SubmitHandler<FormData> = (data) =>
+  const onSubmit: SubmitHandler<FormData> = (data: FormData) =>
     dispatch(filterReservations(data));
   return (
     <>
@@ -37,7 +37,7 @@ export default function ReservationsFilterForm() {
               className="border border-black/10 p-2 h-[40px]"
               {...register("status")}
             >
-              <option value={undefined}>All</option>
+              <option value="">All</option>
               <option value="CONFIRMED">Confirmed</option>
               <option value="SEATED">Seated</option>
               <option value="CHECKED OUT">Checked Out</option>
@@ -53,7 +53,7 @@ export default function ReservationsFilterForm() {
               className="border border-black/10 p-2 h-[40px]"
               {...register("shift")}
             >
-              <option value={undefined}>All</option>
+              <option value="">All</option>
               <option value="BREAKFAST">Breakfast</option>
               <option value="LUNCH">Lunch</option>
               <option value="DINNER">Dinner</option>
@@ -68,7 +68,7 @@ export default function ReservationsFilterForm() {
               className="border border-black/10 p-2 h-[40px]"
               {...register("area")}
             >
-              <option value={undefined}>All</option>
+              <option value="">All</option>
               <option value="BAR">Bar</option>
               <option value="MAIN ROOM">Main Room</option>
             </select>
