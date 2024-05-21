@@ -8,8 +8,8 @@ export default function ReservationsSearch() {
     <input
       type="text"
       placeholder="Search"
-      onChange={(e) => dispatch(filterReservations(e.target.value))}
-      className="p-2 border border-black/10 w-[300px] h-[50px]"
+      onChange={(e) => dispatch(filterReservations({ search: e.target.value }))}
+      className="p-2 border border-black/10 w-[300px] h-[40px]"
     />
   );
 }

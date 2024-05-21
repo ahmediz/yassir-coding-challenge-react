@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectReservations, setData } from "./reservationsSlice";
 import ReservationsSearch from "./reservationsSearch";
 import ReservationItem from "./reservationItem";
+import ReservationsFilterForm from "./reservationsFilterForm";
 
 export default function Reservations() {
   const reservations = useSelector(selectReservations);
@@ -23,6 +24,10 @@ export default function Reservations() {
       <div className="flex justify-between mb-3 items-center">
         <h1 className="text-2xl font-bold">Reservations</h1>
         <ReservationsSearch />
+      </div>
+
+      <div className="my-6">
+        <ReservationsFilterForm />
       </div>
 
       <table className="table-fixed border-collapse w-full">

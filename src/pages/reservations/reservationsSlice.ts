@@ -5,11 +5,25 @@ import { RootState } from "../../store";
 export interface ReservationsState {
   reservations: Reservation[];
   filteredReservations: Reservation[];
+  filters: {
+    search: string;
+    date: string | undefined;
+    status: string | undefined;
+    shift: string | undefined;
+    area: string | undefined;
+  };
 }
 
 const initialState: ReservationsState = {
   reservations: [],
   filteredReservations: [],
+  filters: {
+    search: "",
+    date: undefined,
+    status: undefined,
+    shift: undefined,
+    area: undefined,
+  },
 };
 
 export const reservationsSlice = createSlice({
@@ -20,18 +34,28 @@ export const reservationsSlice = createSlice({
       state.reservations = action.payload;
       state.filteredReservations = action.payload;
     },
-    filterReservations: (state, action: PayloadAction<string>) => {
-      const searchKeyword = action.payload;
+    filterReservations: (state, action: PayloadAction<{}>) => {
+      state.filters = {
+        ...state.filters,
+        ...action.payload,
+      };
 
-      state.filteredReservations = state.reservations.filter(
-        (x) =>
-          x.customer.firstName
-            .toLowerCase()
-            .startsWith(searchKeyword.toLowerCase()) ||
-          x.customer.lastName
-            .toLowerCase()
-            .startsWith(searchKeyword.toLowerCase())
-      );
+      const { search, area } = state.filters;
+
+      state.filteredReservations =
+        search === ""
+          ? state.reservations
+          : state.reservations.filter((x) => {
+              console.log((x.customer.firstName + x.customer.lastName).toLowerCase());
+              (x.customer.firstName + x.customer.lastName)
+                .toLowerCase()
+                .includes(search.toLowerCase());
+            });
+
+      state.filteredReservations =
+        area === "All"
+          ? state.reservations
+          : state.reservations.filter((x) => x.area === area);
     },
   },
 });
@@ -41,5 +65,7 @@ export const { setData, filterReservations } = reservationsSlice.actions;
 
 export const selectReservations = (state: RootState) =>
   state.reservations.filteredReservations;
+
+export const selectFilters = (state: RootState) => state.reservations.filters;
 
 export default reservationsSlice.reducer;
