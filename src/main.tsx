@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Reservations from "./pages/reservations/Reservations";
+import Reservations from "./pages/reservations/reservations";
 import { store } from "./store";
 import { Provider } from "react-redux";
 

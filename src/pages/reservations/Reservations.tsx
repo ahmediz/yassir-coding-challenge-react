@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import ReservationItem from "./ReservationItem";
 import { useDispatch, useSelector } from "react-redux";
 import { selectReservations, setData } from "./reservationsSlice";
 import ReservationsSearch from "./reservationsSearch";
+import ReservationItem from "./reservationItem";
 
 export default function Reservations() {
   const reservations = useSelector(selectReservations);
@@ -47,9 +47,20 @@ export default function Reservations() {
           </tr>
         </thead>
         <tbody>
-          {reservations?.map((reservation) => {
-            return <ReservationItem key={reservation.id} {...reservation} />;
-          })}
+          {!reservations.length ? (
+            <tr>
+              <td
+                colSpan={8}
+                className="px-3 py-2 border border-black/10 text-center"
+              >
+                No reservations found
+              </td>
+            </tr>
+          ) : (
+            reservations?.map((reservation) => {
+              return <ReservationItem key={reservation.id} {...reservation} />;
+            })
+          )}
         </tbody>
       </table>
     </>
