@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectReservations, setData } from "./reservationsSlice";
+import {
+  selectReservations,
+  setData,
+  sortReservations,
+} from "./reservationsSlice";
 import ReservationsSearch from "./reservationsSearch";
 import ReservationItem from "./reservationItem";
 import ReservationsFilterForm from "./reservationsFilterForm";
@@ -34,19 +38,39 @@ export default function Reservations() {
         <thead>
           <tr>
             <th className="px-3 py-2 border border-black/10 text-left">id</th>
-            <th className="px-3 py-2 border border-black/10 text-left">name</th>
-            <th className="px-3 py-2 border border-black/10 text-left">area</th>
+            <th
+              className="px-3 py-2 border border-black/10 text-left"
+              role="button"
+              onClick={() => dispatch(sortReservations("firstName"))}
+            >
+              name
+            </th>
+            <th
+              className="px-3 py-2 border border-black/10 text-left"
+              role="button"
+              onClick={() => dispatch(sortReservations("area"))}
+            >
+              area
+            </th>
             <th className="px-3 py-2 border border-black/10 text-left">
               quantity
             </th>
-            <th className="px-3 py-2 border border-black/10 text-left">
+            <th
+              className="px-3 py-2 border border-black/10 text-left"
+              role="button"
+              onClick={() => dispatch(sortReservations("shift"))}
+            >
               shift
             </th>
             <th className="px-3 py-2 border border-black/10 text-left">Date</th>
             <th className="px-3 py-2 border border-black/10 text-left">
               guestNotes
             </th>
-            <th className="px-3 py-2 border border-black/10 text-left">
+            <th
+              className="px-3 py-2 border border-black/10 text-left"
+              role="button"
+              onClick={() => dispatch(sortReservations("status"))}
+            >
               status
             </th>
           </tr>
